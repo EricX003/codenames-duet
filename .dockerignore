@@ -1,0 +1,10 @@
+# Client & server artefacts we rebuild inside the image
+client/node_modules
+server/node_modules
+client/dist
+
+# Misc
+.git
+.vscode
+.DS_Store
+.env*

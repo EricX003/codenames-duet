@@ -1,0 +1,9 @@
+# docker-compose.yml
+services:
+  duet:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080          # same as Dockerfile default
+    restart: unless-stopped
