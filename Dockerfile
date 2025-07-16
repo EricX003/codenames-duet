@@ -3,7 +3,7 @@ FROM node:20-alpine AS client-build
 
 WORKDIR /app/client
 COPY client/package*.json ./
-RUN npm ci --production
+RUN npm ci
 COPY client .
 RUN npm run build      # outputs to client/dist
 

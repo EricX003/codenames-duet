@@ -6,9 +6,8 @@ node_modules/
 client/dist/
 build/
 
-# Package locks (keep package.json but ignore package-lock.json for now)
-# package-lock.json
-**/package-lock.json
+# Package locks - Include these for production deployment
+# package-lock.json files are needed for npm ci in Docker
 
 # Environment variables
 .env
