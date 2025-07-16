@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: codenames-duet
+    env: docker
+    plan: free         # or standard
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    autoDeploy: true
