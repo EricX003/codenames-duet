@@ -151,18 +151,18 @@ export function generateGame(words) {
         return { result: "timeout", gameOver: true };
       }
       
-      // Switch to the other player for their clue
-      this.activePlayer = 1 - this.activePlayer;
+      // The current active player (who was guessing) now becomes the clue-giver
+      // Don't switch activePlayer - just change phase to "clue"
       this.currentPhase = "clue";
       this.turn++;
       
-      // Check if the new active player has any words left to give clues for
+      // Check if the current active player has any words left to give clues for
       const wordsRemaining = this.getPlayerWordsRemaining(this.activePlayer);
       console.log(`Player ${this.activePlayer} has ${wordsRemaining} words remaining`);
       
       if (wordsRemaining === 0) {
         console.log(`Player ${this.activePlayer} has no words left, skipping their turn`);
-        // Skip this player's turn
+        // Skip this player's turn - switch to the other player
         this.activePlayer = 1 - this.activePlayer;
         
         // Check if the other player also has no words
