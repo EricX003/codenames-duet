@@ -82,6 +82,7 @@ export function generateGame(words) {
         }
         
         // Continue guessing - don't change phase or active player
+        // Fixed
         return { result: "agent", continueGuessing: true };
       }
       
