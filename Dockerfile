@@ -2,10 +2,20 @@
 FROM node:20-alpine AS client-build
 
 WORKDIR /app/client
-COPY client/package*.json ./
-RUN npm ci
-COPY client .
-RUN npm run build      # outputs to client/dist
+
+# Copy package.json (not package-lock.json to force fresh install)
+COPY client/package.json ./
+RUN npm install
+
+# Copy source files and configuration (excluding node_modules and dist via .dockerignore)
+COPY client/src ./src
+COPY client/index.html ./
+COPY client/vite.config.js ./
+COPY client/tailwind.config.cjs ./
+COPY client/postcss.config.cjs ./
+
+# Build the client
+RUN npm run build
 
 ############ 2️⃣  Build server & final runtime ############
 FROM node:20-alpine AS runtime
