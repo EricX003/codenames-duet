@@ -169,6 +169,54 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("endTurn", () => {
+    const room = rooms.get(roomId);
+    if (!room) return;
+    
+    const gs = room.state;
+    
+    // Check if it's the correct player's turn to end turn
+    if (gs.currentPhase !== "guess") {
+      socket.emit("error", { message: "Not in guessing phase" });
+      return;
+    }
+    
+    if (playerIdx !== gs.activePlayer) {
+      socket.emit("error", { message: "Not your turn to guess" });
+      return;
+    }
+    
+    console.log(`Player ${playerIdx} ended turn voluntarily`);
+    
+    // End the turn voluntarily
+    const turnResult = gs.endTurn();
+    if (turnResult.result === "timeout") {
+      console.log("⏰ Time's up! Game ended due to timeout.");
+      io.to(roomId).emit("state", {
+        ...gs.publicSnapshot(),
+        result: "timeout",
+        gameOver: true,
+        victory: false
+      });
+    } else if (turnResult.result === "victory") {
+      console.log("🎉 Victory achieved during turn end!");
+      io.to(roomId).emit("state", {
+        ...gs.publicSnapshot(),
+        result: "victory",
+        gameOver: true,
+        victory: true
+      });
+    } else {
+      // Continue with next turn
+      io.to(roomId).emit("nextTurn", { 
+        activePlayer: turnResult.activePlayer,
+        phase: turnResult.phase,
+        gameState: gs.publicSnapshot(),
+        message: `Player ${playerIdx + 1} ended their turn`
+      });
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log(`Player disconnected: ${socket.id}`);
     rooms.delete(roomId);

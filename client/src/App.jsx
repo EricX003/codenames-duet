@@ -25,6 +25,7 @@ export default function App() {
     message,
     sendClue,
     sendGuess,
+    sendEndTurn,
   } = useSocket();
 
   // local form state
@@ -158,6 +159,16 @@ export default function App() {
         disabled={!canGuess}
       />
 
+      {/* End Turn button - visible when player can guess */}
+      {canGuess && (
+        <button
+          onClick={sendEndTurn}
+          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-6 py-2"
+        >
+          End Turn
+        </button>
+      )}
+
       {/* Clue form – visible only when you can give a clue */}
       {canGiveClue && (
         <form
@@ -205,7 +216,7 @@ export default function App() {
           <p>Give a one-word clue and number. Your partner will guess words related to your clue.</p>
         )}
         {currentPhase === "guess" && isMyTurn && (
-          <p>Click on words that relate to the clue. Green outline = your agents, Red outline = assassins!</p>
+          <p>Click on words that relate to the clue. Green outline = your agents, Red outline = assassins! Click "End Turn" when you're done guessing.</p>
         )}
         {!isMyTurn && (
           <p>Wait for your partner to {currentPhase === "clue" ? "give a clue" : "finish guessing"}.</p>

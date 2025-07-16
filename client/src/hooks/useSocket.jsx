@@ -50,6 +50,15 @@ export default function useSocket() {
     socket.emit("guess", idx);
   }, [socket, canGuess]);
 
+  const sendEndTurn = useCallback(() => {
+    if (!canGuess) {
+      console.log("Cannot end turn right now");
+      return;
+    }
+    console.log("Ending turn voluntarily");
+    socket.emit("endTurn");
+  }, [socket, canGuess]);
+
   useEffect(() => {
     const handleConnect = () => {
       console.log("Connected to server");
@@ -201,5 +210,6 @@ export default function useSocket() {
     message,
     sendClue,
     sendGuess,
+    sendEndTurn,
   };
 }
