@@ -8,7 +8,7 @@ export function generateGame(words) {
   // - Rest are bystanders
   const roles = generateDuetRoles();
 
-  const tokens = { bank: 9, used: [] };
+  const tokens = { bank: 9, used: 0 }; // Change used from array to simple counter
 
   return {
     publicBoard: boardWords.map((w, i) => ({ 
@@ -87,14 +87,7 @@ export function generateGame(words) {
       }
       
       // Bystander - end turn and use token
-      this.tokens.used.push({ 
-        type: "bystander", 
-        cardIdx: idx, 
-        turn: this.turn,
-        guesser: playerWhoGuessed 
-      });
-      
-      console.log(`Bystander hit. Tokens used: ${this.tokens.used.length}/${this.tokens.bank}`);
+      console.log(`Bystander hit. Turn ending.`);
       
       // End the current turn
       return { result: "bystander", endTurn: true };
@@ -143,8 +136,12 @@ export function generateGame(words) {
     },
     
     endTurn() {
-      // Check if we've run out of time first
-      if (this.tokens.used.length >= this.tokens.bank && !this.gameOver) {
+      // Use one timer token for this turn (happens regardless of how turn ended)
+      this.tokens.used++;
+      console.log(`Turn ended. Tokens used: ${this.tokens.used}/${this.tokens.bank}`);
+      
+      // Check if we've run out of time after using the token
+      if (this.tokens.used >= this.tokens.bank && !this.gameOver) {
         this.gameOver = true;
         this.victory = false;
         console.log("Game over: Out of time!");
@@ -210,7 +207,7 @@ export function generateGame(words) {
         board: this.publicBoard,
         tokens: {
           bank: this.tokens.bank,
-          used: this.tokens.used.length
+          used: this.tokens.used
         },
         turn: this.turn,
         activePlayer: this.activePlayer,
