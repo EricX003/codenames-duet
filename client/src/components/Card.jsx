@@ -16,7 +16,7 @@ export default function Card({
   // show hidden info (outline) only to the owning player
   const outline =
     !revealed && privateColor !== "bystander"
-      ? `ring-4 ${
+      ? `ring-2 sm:ring-4 ${
           privateColor === "agent" ? "ring-emerald-400" : "ring-red-400"
         }`
       : "";
@@ -27,9 +27,9 @@ export default function Card({
     <button
       onClick={() => onGuess(idx)}
       disabled={disabled || revealed}
-      className={`h-24 w-32 rounded-xl shadow font-semibold flex items-center justify-center p-2 text-center select-none transition ${bg} ${outline}`}
+      className={`aspect-square w-full min-h-12 sm:min-h-16 md:min-h-20 rounded-lg sm:rounded-xl shadow font-semibold flex items-center justify-center p-1 sm:p-2 text-center select-none transition text-xs sm:text-sm md:text-base ${bg} ${outline}`}
     >
-      {word}
+      <span className="leading-tight break-words">{word}</span>
     </button>
   );
 }

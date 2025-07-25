@@ -88,8 +88,8 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen py-8 flex flex-col items-center gap-6">
-      <h1 className="text-4xl font-bold tracking-tight">Codenames Duet</h1>
+    <div className="min-h-screen py-4 sm:py-8 px-2 sm:px-4 flex flex-col items-center gap-4 sm:gap-6">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-center">Codenames Duet</h1>
 
       {/* Error display */}
       {error && (
@@ -106,20 +106,20 @@ export default function App() {
       )}
 
       {/* Game status */}
-      <div className="text-center">
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <div className={`px-3 py-1 rounded-full text-sm ${
+      <div className="text-center px-2">
+        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-2 flex-wrap">
+          <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm ${
             activePlayer === 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
           }`}>
             Player 1: {wordsRemaining[0]} words left
           </div>
-          <div className={`px-3 py-1 rounded-full text-sm ${
+          <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm ${
             activePlayer === 1 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
           }`}>
             Player 2: {wordsRemaining[1]} words left
           </div>
         </div>
-        <p className="text-sm text-gray-600">
+        <p className="text-xs sm:text-sm text-gray-600">
           Agents found: {agentsFound.total}/15 • Turn {turn + 1}
         </p>
       </div>
@@ -128,15 +128,15 @@ export default function App() {
       <TokenBar tokens={tokens} />
 
       {/* Turn indicator */}
-      <div className="text-center">
+      <div className="text-center px-2">
         {isMyTurn ? (
-          <div className="bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded-lg">
+          <div className="bg-green-100 border border-green-300 text-green-800 px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base">
             <span className="font-semibold">Your Turn!</span>
             {currentPhase === "clue" && " Give a clue."}
             {currentPhase === "guess" && " Make your guesses."}
           </div>
         ) : (
-          <div className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg">
+          <div className="bg-gray-100 border border-gray-300 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base">
             <span className="font-semibold">Player {activePlayer + 1}'s Turn</span>
             {currentPhase === "clue" && " - Giving a clue..."}
             {currentPhase === "guess" && " - Making guesses..."}
@@ -146,7 +146,7 @@ export default function App() {
 
       {/* Current clue banner */}
       {clue && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded-lg">
+        <div className="bg-blue-50 border border-blue-200 text-blue-800 px-3 sm:px-4 py-2 rounded-lg mx-2 text-center">
           <span className="font-semibold">Clue:</span> "{clue.word}" ({clue.count})
         </div>
       )}
@@ -163,7 +163,7 @@ export default function App() {
       {canGuess && (
         <button
           onClick={sendEndTurn}
-          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-6 py-2"
+          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-4 sm:px-6 py-2 text-sm sm:text-base"
         >
           End Turn
         </button>
@@ -178,32 +178,32 @@ export default function App() {
             setClueWord("");
             setCount("");
           }}
-          className="flex items-end gap-2 mt-4"
+          className="flex flex-col sm:flex-row items-center gap-2 mt-4 w-full max-w-sm sm:max-w-none px-2"
         >
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Word</label>
+          <div className="flex flex-col w-full sm:w-auto">
+            <label className="text-xs sm:text-sm mb-1">Word</label>
             <input
               required
               value={clueWord}
               onChange={(e) => setClueWord(e.target.value)}
-              className="rounded-lg border p-2 w-40"
+              className="rounded-lg border p-2 w-full sm:w-40 text-sm sm:text-base"
               placeholder="e.g. Ocean"
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Count</label>
+          <div className="flex flex-col w-full sm:w-auto">
+            <label className="text-xs sm:text-sm mb-1">Count</label>
             <input
               required
               type="number"
               min="0"
               value={count}
               onChange={(e) => setCount(e.target.value)}
-              className="rounded-lg border p-2 w-20"
+              className="rounded-lg border p-2 w-full sm:w-20 text-sm sm:text-base"
             />
           </div>
           <button
             type="submit"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg px-4 py-2"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg px-4 py-2 mt-2 sm:mt-0 w-full sm:w-auto text-sm sm:text-base"
           >
             Send Clue
           </button>
@@ -211,7 +211,7 @@ export default function App() {
       )}
 
       {/* Help text */}
-      <div className="text-center text-sm text-gray-500 max-w-md">
+      <div className="text-center text-xs sm:text-sm text-gray-500 max-w-md px-4">
         {currentPhase === "clue" && isMyTurn && (
           <p>Give a one-word clue and number. Your partner will guess words related to your clue.</p>
         )}
